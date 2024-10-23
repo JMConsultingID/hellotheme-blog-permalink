@@ -14,6 +14,13 @@ function hellotheme_blog_permalink_rewrite_rules() {
         return;
     }
     add_rewrite_rule(
+        '^en/blog/([^/]+)/([^/]+)/?$',
+        'index.php?category_name=$matches[1]&name=$matches[2]&lang=en',
+        'top'
+    );
+
+    // Add more rewrite rules for other languages if needed
+    add_rewrite_rule(
         '^blog/([^/]+)/([^/]+)/?$',
         'index.php?category_name=$matches[1]&name=$matches[2]',
         'top'
@@ -53,16 +60,16 @@ function hellotheme_blog_permalink_blog_post_permalink($permalink, $post) {
     // If category is found, modify permalink
     if ($primary_category) {
         $category_slug = $primary_category->slug;
-        
-        // Get current language from Polylang (assuming Polylang is active)
-        if (function_exists('pll_current_language')) {
-            $language = pll_current_language('slug');
+
+        // Detect current language (using Polylang)
+        if (function_exists('pll_get_post_language')) {
+            $language = pll_get_post_language($post->ID, 'slug');
             $language_prefix = ($language !== pll_default_language()) ? '/' . $language : '';
         } else {
             $language_prefix = '';
         }
 
-        // Create the new permalink with language prefix
+        // Construct the permalink with language prefix
         $permalink = home_url($language_prefix . '/blog/' . $category_slug . '/' . $post->post_name . '/');
     }
 
