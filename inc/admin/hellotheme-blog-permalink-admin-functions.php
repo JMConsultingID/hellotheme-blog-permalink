@@ -67,7 +67,8 @@ function hellotheme_blog_permalink_section_callback() {
     echo '<p><strong>Important:</strong> After enabling this setting, you need to flush the permalink settings.</p>';
     echo '<p>To do this, go to the <a href="' . esc_url($permalink_url) . '">Permalink Settings page</a> and click "Save Changes".</p>';
     echo '<p>Once the permalink is enabled, the URL structure for your blog posts will be:</p>';
-    echo '<p><code>' . esc_url(home_url()) . '/blog/%category%/%postname%/</code></p>';
+    echo '<p>JP Version : <code>' . esc_url(home_url()) . '/blog/%category%/%postname%/</code></p>';
+    echo '<p>EN Version : <code>' . esc_url(home_url()) . '/en/blog/%category%/%postname%/</code></p>';
 }
 
 
