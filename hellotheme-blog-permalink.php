@@ -28,4 +28,5 @@ if (!function_exists('is_plugin_active')) {
     include_once(ABSPATH . '/wp-admin/includes/plugin.php');
 }
 
+require plugin_dir_path( __FILE__ ) . 'inc/admin/hellotheme-blog-permalink-admin-functions.php';
 require plugin_dir_path( __FILE__ ) . 'inc/hellotheme-blog-permalink-functions.php';

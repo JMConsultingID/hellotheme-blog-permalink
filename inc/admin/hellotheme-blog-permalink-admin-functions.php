@@ -8,14 +8,14 @@
  * @package hellotheme-blog-permalink
  */
 function hellotheme_blog_permalink_table_add_menu() {
-    add_menu_page(
+    // Add as a submenu under Settings
+    add_submenu_page(
+        'options-general.php', // Parent menu slug for Settings
         'Hello Blog Permalink', // Page title
         'Hello Blog Permalink', // Menu title
         'manage_options', // Capability
         'hellotheme_blog_permalink_settings', // Menu slug
-        'hellotheme_blog_permalink_settings_page', // Function to display the page content
-        'dashicons-screenoptions', // Icon URL
-        5 // Position
+        'hellotheme_blog_permalink_settings_page' // Function to display the page content
     );
 }
 
