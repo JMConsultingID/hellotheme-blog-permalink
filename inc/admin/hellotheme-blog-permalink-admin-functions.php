@@ -19,7 +19,7 @@ function hellotheme_blog_permalink_table_add_menu() {
     );
 }
 
-add_action( 'admin_menu', 'hellotheme_blog_permalink_table_add_menu', 20 );
+add_action( 'admin_menu', 'hellotheme_blog_permalink_table_add_menu');
 
 function hellotheme_blog_permalink_settings_page() {
     ?>
