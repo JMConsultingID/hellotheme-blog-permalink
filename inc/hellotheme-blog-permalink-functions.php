@@ -42,7 +42,7 @@ function hellotheme_blog_permalink_blog_post_permalink($permalink, $post) {
         $primary_category = get_category($primary_category_id);
     }
 
-    // Fallback to first category if no primary category is found
+    // Fallback to first category if no primary category found
     if (!$primary_category || is_wp_error($primary_category)) {
         $categories = get_the_category($post->ID);
         if (!empty($categories)) {
@@ -53,7 +53,17 @@ function hellotheme_blog_permalink_blog_post_permalink($permalink, $post) {
     // If category is found, modify permalink
     if ($primary_category) {
         $category_slug = $primary_category->slug;
-        $permalink = home_url('/blog/' . $category_slug . '/' . $post->post_name . '/');
+        
+        // Get current language from Polylang (assuming Polylang is active)
+        if (function_exists('pll_current_language')) {
+            $language = pll_current_language('slug');
+            $language_prefix = ($language !== pll_default_language()) ? '/' . $language : '';
+        } else {
+            $language_prefix = '';
+        }
+
+        // Create the new permalink with language prefix
+        $permalink = home_url($language_prefix . '/blog/' . $category_slug . '/' . $post->post_name . '/');
     }
 
     return $permalink;
