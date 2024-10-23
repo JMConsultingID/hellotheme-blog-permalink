@@ -7,15 +7,15 @@
  *
  * @package hellotheme-blog-permalink
  */
-
 function hellotheme_blog_permalink_table_add_menu() {
-    // Add to the main Settings menu
-    add_options_page(
+    add_menu_page(
         'Hello Blog Permalink', // Page title
         'Hello Blog Permalink', // Menu title
         'manage_options', // Capability
-        'hellotheme_blog_permalink_settings', // Menu slug (optional)
-        'hellotheme_blog_permalink_settings_page' // Function to display the page content
+        'hellotheme_blog_permalink_settings', // Menu slug
+        'hellotheme_blog_permalink_settings_page', // Function to display the page content
+        'dashicons-screenoptions', // Icon URL
+        80 // Position
     );
 }
 
