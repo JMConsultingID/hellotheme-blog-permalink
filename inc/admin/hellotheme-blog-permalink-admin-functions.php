@@ -15,7 +15,7 @@ function hellotheme_blog_permalink_table_add_menu() {
         'hellotheme_blog_permalink_settings', // Menu slug
         'hellotheme_blog_permalink_settings_page', // Function to display the page content
         'dashicons-screenoptions', // Icon URL
-        80 // Position
+        5 // Position
     );
 }
 
