@@ -9,6 +9,10 @@
  */
 // Custom permalink structure for posts in the /blog/ format
 function hellotheme_blog_permalink_rewrite_rules() {
+    $enable_permalink = get_option( 'hellotheme_blog_permalink_enable_permalink' );
+    if ($enable_permalink!== '1') {
+        return;
+    }
     add_rewrite_rule(
         '^blog/([^/]+)/([^/]+)/?$',
         'index.php?category_name=$matches[1]&name=$matches[2]',
@@ -21,6 +25,11 @@ add_action('init', 'hellotheme_blog_permalink_rewrite_rules');
 
 // Custom function for generating permalinks
 function hellotheme_blog_permalink_blog_post_permalink($permalink, $post) {
+    $enable_permalink = get_option( 'hellotheme_blog_permalink_enable_permalink' );
+    if ($enable_permalink!== '1') {
+        return;
+    }
+
     if ($post->post_type !== 'post') {
         return $permalink;
     }
@@ -53,6 +62,11 @@ function hellotheme_blog_permalink_blog_post_permalink($permalink, $post) {
 add_filter('post_link', 'hellotheme_blog_permalink_blog_post_permalink', 10, 2);
 
 function hellotheme_blog_permalink_redirect_old_post_links() {
+    $enable_permalink = get_option( 'hellotheme_blog_permalink_enable_permalink' );
+    if ($enable_permalink!== '1') {
+        return;
+    }
+    
     if (is_singular('post')) {
         global $post;
 
