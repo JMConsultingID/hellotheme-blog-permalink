@@ -123,6 +123,37 @@ function hellotheme_blog_permalink_redirect_old_post_links() {
 // Hook into template_redirect to perform the redirect
 add_action('template_redirect', 'hellotheme_blog_permalink_redirect_old_post_links');
 
+function hellotheme_blog_permalink_category_rewrite_rules() {
+    // Add rewrite rule for category archives with /blog/ prefix
+    $enable_category_permalink = get_option( 'hellotheme_blog_permalink_enable_category_permalink' );
+    if ($enable_category_permalink!== '1') {
+        return;
+    }
+
+    add_rewrite_rule(
+        '^blog/([^/]+)/?$',
+        'index.php?category_name=$matches[1]',
+        'top'
+    );
+
+    // Add rewrite rule for language-specific category archives with /blog/ prefix
+    if (function_exists('pll_current_language')) {
+        $languages = pll_languages_list(); // Get all languages
+
+        foreach ($languages as $language) {
+            if ($language !== pll_default_language()) {
+                add_rewrite_rule(
+                    '^' . $language . '/blog/([^/]+)/?$',
+                    'index.php?category_name=$matches[1]&lang=' . $language,
+                    'top'
+                );
+            }
+        }
+    }
+}
+add_action('init', 'hellotheme_blog_permalink_category_rewrite_rules');
+
+
 function hellotheme_blog_permalink_category_archive_permalink($termlink, $term) {
     $enable_category_permalink = get_option( 'hellotheme_blog_permalink_enable_category_permalink' );
 
@@ -130,7 +161,7 @@ function hellotheme_blog_permalink_category_archive_permalink($termlink, $term) 
         return;
     }
 
-    // Ensure we are modifying category links
+    // Ensure we are modifying category links only
     if ($term->taxonomy !== 'category') {
         return $termlink;
     }
@@ -138,7 +169,7 @@ function hellotheme_blog_permalink_category_archive_permalink($termlink, $term) 
     // Get the category slug
     $category_slug = $term->slug;
 
-    // Detect the current language (using Polylang)
+    // Detect current language (using Polylang)
     if (function_exists('pll_current_language')) {
         $language = pll_current_language('slug');
         $language_prefix = ($language !== pll_default_language()) ? '/' . $language : '';
@@ -146,7 +177,7 @@ function hellotheme_blog_permalink_category_archive_permalink($termlink, $term) 
         $language_prefix = '';
     }
 
-    // Construct the new permalink with /blog/ prefix and language prefix
+    // Construct the new permalink with /blog/ prefix
     $new_permalink = home_url($language_prefix . '/blog/' . $category_slug . '/');
 
     return $new_permalink;
