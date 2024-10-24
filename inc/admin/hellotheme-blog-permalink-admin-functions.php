@@ -41,6 +41,7 @@ add_action( 'admin_init', 'hellotheme_blog_permalink_register_permalink_setting_
 
 function hellotheme_blog_permalink_register_permalink_setting_fields() {
     register_setting( 'hellotheme_blog_permalink_group', 'hellotheme_blog_permalink_enable_permalink' );
+    register_setting( 'hellotheme_blog_permalink_group', 'hellotheme_blog_permalink_enable_category_permalink' );
 
     add_settings_section(
         'hellotheme_blog_permalink_section',
@@ -53,6 +54,14 @@ function hellotheme_blog_permalink_register_permalink_setting_fields() {
         'hellotheme_blog_permalink_enable_permalink',
         'Enable Blog Permalink',
         'hellotheme_blog_permalink_enable_permalink_callback',
+        'hellotheme-blog-permalink-settings',
+        'hellotheme_blog_permalink_section'
+    );
+
+    add_settings_field(
+        'hellotheme_blog_permalink_enable_category_permalink',
+        'Enable Category Blog Permalink',
+        'hellotheme_blog_permalink_enable_category_permalink_callback',
         'hellotheme-blog-permalink-settings',
         'hellotheme_blog_permalink_section'
     );
@@ -76,5 +85,12 @@ function hellotheme_blog_permalink_enable_permalink_callback() {
     $options = get_option( 'hellotheme_blog_permalink_enable_permalink' );
     ?>
     <input type="checkbox" name="hellotheme_blog_permalink_enable_permalink" value="1" <?php checked( 1, $options, true ); ?> />
+    <?php
+}
+
+function hellotheme_blog_permalink_enable_category_permalink_callback() {
+    $options = get_option( 'hellotheme_blog_permalink_enable_category_permalink' );
+    ?>
+    <input type="checkbox" name="hellotheme_blog_permalink_enable_category_permalink" value="1" <?php checked( 1, $options, true ); ?> />
     <?php
 }

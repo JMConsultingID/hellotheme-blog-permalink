@@ -123,6 +123,38 @@ function hellotheme_blog_permalink_redirect_old_post_links() {
 // Hook into template_redirect to perform the redirect
 add_action('template_redirect', 'hellotheme_blog_permalink_redirect_old_post_links');
 
+function hellotheme_blog_permalink_category_archive_permalink($termlink, $term) {
+    $enable_category_permalink = get_option( 'hellotheme_blog_permalink_enable_category_permalink' );
+
+    if ($enable_category_permalink!== '1') {
+        return;
+    }
+
+    // Ensure we are modifying category links
+    if ($term->taxonomy !== 'category') {
+        return $termlink;
+    }
+
+    // Get the category slug
+    $category_slug = $term->slug;
+
+    // Detect the current language (using Polylang)
+    if (function_exists('pll_current_language')) {
+        $language = pll_current_language('slug');
+        $language_prefix = ($language !== pll_default_language()) ? '/' . $language : '';
+    } else {
+        $language_prefix = '';
+    }
+
+    // Construct the new permalink with /blog/ prefix and language prefix
+    $new_permalink = home_url($language_prefix . '/blog/' . $category_slug . '/');
+
+    return $new_permalink;
+}
+
+// Hook into the category link filter
+add_filter('category_link', 'hellotheme_blog_permalink_category_archive_permalink', 10, 2);
+
 
 // Flush rewrite rules after theme or plugin updates
 function hellotheme_blog_permalink_flush_custom_rewrite_rules() {
